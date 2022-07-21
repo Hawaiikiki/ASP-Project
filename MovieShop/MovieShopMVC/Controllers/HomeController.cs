@@ -1,4 +1,5 @@
-﻿using Infrastructure.Services;
+﻿using ApplicationCore.ServiceContracts;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 using MovieShopMVC.Models;
 using System.Diagnostics;
@@ -8,10 +9,14 @@ namespace MovieShopMVC.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IMovieService _movieService;
 
-        public HomeController(ILogger<HomeController> logger)
+        // we need to tell our framework what we want to pass as parameter
+        public HomeController(ILogger<HomeController> logger, IMovieService movieService)
         {
             _logger = logger;
+            _movieService = movieService;
+            
         }
 
         // Action methods inside the controller
@@ -21,8 +26,8 @@ namespace MovieShopMVC.Controllers
         {
             // controllers call services which are gonna call repositories
 
-            var movieService = new MovieService();
-            var movieCards = movieService.GetTopRevenueMovies();
+
+            var movieCards = _movieService.GetTopRevenueMovies();
             return View(movieCards);
         }
 

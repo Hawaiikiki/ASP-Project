@@ -1,7 +1,26 @@
+using ApplicationCore.RepositoryContracts;
+using ApplicationCore.ServiceContracts;
+using Infrastructure.Data;
+using Infrastructure.Repositories;
+using Infrastructure.Services;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// DI : used to create loosely coupled code to make code more maintainable 
+// first class citizen (built-in support) 
+builder.Services.AddScoped<IMovieService, MovieService>(); // when we see IMovieService, then inject MovieService
+builder.Services.AddScoped<IMovieRepository, MovieRepository>();
+
+// read the connection string from appsetting.json and inject connection string into DbContext
+builder.Services.AddDbContext<MovieShopDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MovieShopDbConnection"));
+});
+
 
 var app = builder.Build();
 

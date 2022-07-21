@@ -19,13 +19,21 @@ namespace Infrastructure.Data
         // genres, cast, user
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Trailer> Trailers { get; set; }
+        public DbSet<MovieGenre> MovieGenres { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // we can specify the fluent API way
             modelBuilder.Entity<Movie>(ConfigureMovie);
+            modelBuilder.Entity<MovieGenre>(ConfigureMovieGenre);
         }
 
+        private void ConfigureMovieGenre(EntityTypeBuilder<MovieGenre> builder)
+        {
+            builder.ToTable("MovieGenres");
+            builder.HasKey(mg => new { mg.MovieId, mg.GenreId });
+        }
         private void ConfigureMovie(EntityTypeBuilder<Movie> builder)
         {
             // We can give the rules for our movie

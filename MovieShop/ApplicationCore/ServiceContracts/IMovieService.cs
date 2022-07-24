@@ -12,6 +12,8 @@ namespace ApplicationCore.ServiceContracts
 
         // Controllers call Services
 
-        List<MovieCardModel> GetTopRevenueMovies();
+        Task<List<MovieCardModel>> GetTopRevenueMovies();
+        Task<MovieDetailsModel> getMovieDetails(int movieId);
+        
     }
 }

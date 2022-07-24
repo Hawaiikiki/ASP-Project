@@ -11,10 +11,11 @@ namespace ApplicationCore.RepositoryContracts
     {
         // include CRUD Operations regarding Movie Table and use Movie Entity
 
-        List<Movie> GetTop30HighestRevenueMovies();
+        //async method should return task
+        Task<List<Movie>> GetTop30HighestRevenueMovies();
 
-        List<Movie> GetTop30RatedMovies();
-        Movie GetById(int id);
+        Task<List<Movie>> GetTop30RatedMovies();
+        Task<Movie> GetById(int id);
 
     }
 }

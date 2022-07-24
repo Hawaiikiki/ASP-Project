@@ -22,12 +22,12 @@ namespace MovieShopMVC.Controllers
         // Action methods inside the controller
         // executed with GET
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             // controllers call services which are gonna call repositories
 
 
-            var movieCards = _movieService.GetTopRevenueMovies();
+            var movieCards = await _movieService.GetTopRevenueMovies();
             return View(movieCards);
         }
 

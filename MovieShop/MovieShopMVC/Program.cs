@@ -14,6 +14,10 @@ builder.Services.AddControllersWithViews();
 // first class citizen (built-in support) 
 builder.Services.AddScoped<IMovieService, MovieService>(); // when we see IMovieService, then inject MovieService
 builder.Services.AddScoped<IMovieRepository, MovieRepository>();
+builder.Services.AddScoped<IGenreRepository, GenreRepository>();
+builder.Services.AddScoped<IGenreService, GenreService>();
+builder.Services.AddScoped<ICastRepository, CastRepository>();
+builder.Services.AddScoped<ICastService, CastService>();
 
 // read the connection string from appsetting.json and inject connection string into DbContext
 builder.Services.AddDbContext<MovieShopDbContext>(options =>

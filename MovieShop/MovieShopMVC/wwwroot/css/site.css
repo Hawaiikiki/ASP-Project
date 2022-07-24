@@ -16,3 +16,13 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.movieFacts {
+    background-color: #f8f9fa;
+}
+
+.details{
+    margin-top:1em;
+}
+
+img{border:none; outline:none;margin:0;}

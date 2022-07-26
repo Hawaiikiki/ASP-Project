@@ -1,25 +1,24 @@
-﻿using ApplicationCore.ServiceContracts;
-using ApplicationCore.Models;
+﻿using ApplicationCore.Models;
+using ApplicationCore.RepositoryContracts;
+using ApplicationCore.ServiceContracts;
+using Infrastructure.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Infrastructure.Repositories;
-using ApplicationCore.RepositoryContracts;
 
 namespace Infrastructure.Services
 {
     public class MovieService : IMovieService
     {
         private readonly IMovieRepository _movieRepository;
-
         public MovieService(IMovieRepository movieRepository)
         {
             _movieRepository = movieRepository;
         }
 
-        public async Task<MovieDetailsModel> getMovieDetails(int movieId)
+        public async Task<MovieDetailsModel> GetMovieDetails(int movieId)
         {
             var movieDetails = await _movieRepository.GetById(movieId);
 
@@ -63,11 +62,12 @@ namespace Infrastructure.Services
             return movieDetailsModel;
         }
 
-        // communicate with Repos
         public async Task<List<MovieCardModel>> GetTopRevenueMovies()
         {
-            
+            // communicate with Repositories
+
             var movies = await _movieRepository.GetTop30HighestRevenueMovies();
+
             var movieCards = new List<MovieCardModel>();
             foreach (var movie in movies)
             {

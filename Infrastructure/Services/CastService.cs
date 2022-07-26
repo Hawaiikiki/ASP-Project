@@ -1,4 +1,4 @@
-﻿using ApplicationCore.ServiceContracts;
+using ApplicationCore.ServiceContracts;
 using ApplicationCore.Models;
 using System;
 using System.Collections.Generic;

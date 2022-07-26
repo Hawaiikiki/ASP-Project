@@ -1,4 +1,4 @@
-﻿using ApplicationCore.Entities;
+using ApplicationCore.Entities;
 using ApplicationCore.RepositoryContracts;
 using Infrastructure.Data;
 using System;
@@ -21,7 +21,7 @@ namespace Infrastructure.Repositories
         public async Task<Cast> GetById(int id)
         {
             var castDetails = await _movieShopDbContext.Casts
-                .Include(c=>c.MoviesOfCast).ThenInclude(c=>c.Movie)
+                .Include(c => c.MoviesOfCast).ThenInclude(c => c.Movie)
                 .FirstOrDefaultAsync(c => c.Id == id);
             return castDetails;
         }

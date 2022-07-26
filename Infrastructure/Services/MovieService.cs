@@ -1,4 +1,4 @@
-﻿using ApplicationCore.Models;
+using ApplicationCore.Models;
 using ApplicationCore.RepositoryContracts;
 using ApplicationCore.ServiceContracts;
 using Infrastructure.Repositories;

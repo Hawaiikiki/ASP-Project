@@ -140,7 +140,7 @@ namespace Infrastructure.Migrations
                         .HasColumnType("decimal(5,2)")
                         .HasDefaultValue(9.9m);
 
-                    b.Property<DateTime?>("ReleaseDate")
+                    b.Property<DateTime>("ReleaseDate")
                         .HasColumnType("datetime2");
 
                     b.Property<decimal?>("Revenue")
@@ -217,33 +217,6 @@ namespace Infrastructure.Migrations
                     b.HasIndex("GenreId");
 
                     b.ToTable("MovieGenres", (string)null);
-                });
-
-            modelBuilder.Entity("ApplicationCore.Entities.Purchase", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MovieId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("PurchaseDateTime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
-
-                    b.Property<string>("PurchaseNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("TotalPrice")
-                        .HasColumnType("decimal(5,2)");
-
-                    b.HasKey("UserId", "MovieId");
-
-                    b.HasIndex("MovieId");
-
-                    b.ToTable("Purchases", (string)null);
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.Review", b =>
@@ -447,25 +420,6 @@ namespace Infrastructure.Migrations
                     b.Navigation("Movie");
                 });
 
-            modelBuilder.Entity("ApplicationCore.Entities.Purchase", b =>
-                {
-                    b.HasOne("ApplicationCore.Entities.Movie", "Movie")
-                        .WithMany()
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ApplicationCore.Entities.User", "User")
-                        .WithMany("Purchases")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Movie");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("ApplicationCore.Entities.Review", b =>
                 {
                     b.HasOne("ApplicationCore.Entities.Movie", "Movie")
@@ -541,8 +495,6 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("ApplicationCore.Entities.User", b =>
                 {
-                    b.Navigation("Purchases");
-
                     b.Navigation("Reviews");
 
                     b.Navigation("RolesOfUser");

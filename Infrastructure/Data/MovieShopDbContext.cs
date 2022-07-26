@@ -11,12 +11,11 @@ namespace Infrastructure.Data
 {
     public class MovieShopDbContext: DbContext
     {
-        public MovieShopDbContext(DbContextOptions<MovieShopDbContext> options): base(options)
+        public MovieShopDbContext(DbContextOptions<MovieShopDbContext> options) : base(options)
         {
 
         }
         public DbSet<Movie> Movies { get; set; }
-        // genres, cast, user
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Trailer> Trailers { get; set; }
         public DbSet<MovieGenre> MovieGenres { get; set; }
@@ -27,11 +26,11 @@ namespace Infrastructure.Data
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
-        public DbSet<Purchase> Purchases { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // we can specify the fluent API way
+            // we can specify the Fluent API way
+
             modelBuilder.Entity<Movie>(ConfigureMovie);
             modelBuilder.Entity<MovieGenre>(ConfigureMovieGenre);
             modelBuilder.Entity<Cast>(ConfigureCast);
@@ -41,14 +40,6 @@ namespace Infrastructure.Data
             modelBuilder.Entity<UserRole>(ConfigureUserRole);
             modelBuilder.Entity<Review>(ConfigureReview);
             modelBuilder.Entity<Favorite>(ConfigureFavorite);
-            modelBuilder.Entity<Purchase>(ConfigurePurchase);
-        }
-        private void ConfigurePurchase(EntityTypeBuilder<Purchase> builder)
-        {
-            builder.ToTable("Purchases");
-            builder.HasKey(p => new { p.UserId, p.MovieId });
-            builder.Property(p => p.TotalPrice).HasColumnType("decimal(5, 2)");
-            builder.Property(p => p.PurchaseDateTime).HasDefaultValueSql("getdate()");
         }
         private void ConfigureFavorite(EntityTypeBuilder<Favorite> builder)
         {
@@ -69,6 +60,12 @@ namespace Infrastructure.Data
             builder.ToTable("UserRoles");
             builder.HasKey(x => new { x.RoleId, x.UserId });
         }
+
+        private void ConfigureRole(EntityTypeBuilder<Role> builder)
+        {
+            builder.Property(r => r.Name).HasMaxLength(64);
+        }
+
         private void ConfigureUser(EntityTypeBuilder<User> builder)
         {
             builder.HasIndex(u => u.Email).IsUnique();
@@ -80,28 +77,14 @@ namespace Infrastructure.Data
             builder.Property(u => u.Salt).HasMaxLength(1024);
             builder.Property(u => u.ProfilePictureUrl).HasMaxLength(4096);
             builder.Property(u => u.IsLocked).HasDefaultValue(false);
-            // user role entity + these properties
         }
-        private void ConfigureRole(EntityTypeBuilder<Role> builder)
-        {
-            builder.Property(r => r.Name).HasMaxLength(64);
-            // user role entity + these properties -> add migration
 
-            // then create junction table -> add navigation properties to User and Role table
-            // then these properties for junction table -> add migration
-
-            // then create review table -> add navigation properties to User and 
-            // then these properties for review table -> add migration
-
-            // then create favorite table -> 
-            // then these properties for favorite table -> add migration
-
-        }
         private void ConfigureMovieCast(EntityTypeBuilder<MovieCast> builder)
         {
             builder.ToTable("MovieCasts");
             builder.HasKey(mc => new { mc.CastId, mc.MovieId, mc.Character });
         }
+
         private void ConfigureCast(EntityTypeBuilder<Cast> builder)
         {
             builder.Property(c => c.Name).HasMaxLength(128);
@@ -115,9 +98,10 @@ namespace Infrastructure.Data
             builder.ToTable("MovieGenres");
             builder.HasKey(mg => new { mg.MovieId, mg.GenreId });
         }
+
         private void ConfigureMovie(EntityTypeBuilder<Movie> builder)
         {
-            // We can give the rules for our movie
+            // we can give the rules for our Movie 
 
             builder.HasKey(m => m.Id);
             builder.Property(m => m.Title).HasMaxLength(256);

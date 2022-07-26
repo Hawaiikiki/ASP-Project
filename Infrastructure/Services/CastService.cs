@@ -40,7 +40,6 @@ namespace Infrastructure.Services
                     PosterUrl = movie.Movie.PosterUrl,
                 });
             }
-            int i = 3;
 
             return castDetailsModel;
 

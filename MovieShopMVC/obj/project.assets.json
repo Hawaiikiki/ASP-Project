@@ -1905,11 +1905,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\glies\\source\\repos\\June\\MovieShop\\MovieShopMVC\\MovieShopMVC.csproj",
+      "projectUniqueName": "C:\\Users\\glies\\source\\repos\\MovieShopMVC\\MovieShop\\MovieShopMVC\\MovieShopMVC.csproj",
       "projectName": "MovieShopMVC",
-      "projectPath": "C:\\Users\\glies\\source\\repos\\June\\MovieShop\\MovieShopMVC\\MovieShopMVC.csproj",
+      "projectPath": "C:\\Users\\glies\\source\\repos\\MovieShopMVC\\MovieShop\\MovieShopMVC\\MovieShopMVC.csproj",
       "packagesPath": "C:\\Users\\glies\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\glies\\source\\repos\\June\\MovieShop\\MovieShopMVC\\obj\\",
+      "outputPath": "C:\\Users\\glies\\source\\repos\\MovieShopMVC\\MovieShop\\MovieShopMVC\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\glies\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -1926,11 +1926,11 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\glies\\source\\repos\\June\\MovieShop\\ApplicationCore\\ApplicationCore.csproj": {
-              "projectPath": "C:\\Users\\glies\\source\\repos\\June\\MovieShop\\ApplicationCore\\ApplicationCore.csproj"
+            "C:\\Users\\glies\\source\\repos\\MovieShopMVC\\MovieShop\\ApplicationCore\\ApplicationCore.csproj": {
+              "projectPath": "C:\\Users\\glies\\source\\repos\\MovieShopMVC\\MovieShop\\ApplicationCore\\ApplicationCore.csproj"
             },
-            "C:\\Users\\glies\\source\\repos\\June\\MovieShop\\Infrastructure\\Infrastructure.csproj": {
-              "projectPath": "C:\\Users\\glies\\source\\repos\\June\\MovieShop\\Infrastructure\\Infrastructure.csproj"
+            "C:\\Users\\glies\\source\\repos\\MovieShopMVC\\MovieShop\\Infrastructure\\Infrastructure.csproj": {
+              "projectPath": "C:\\Users\\glies\\source\\repos\\MovieShopMVC\\MovieShop\\Infrastructure\\Infrastructure.csproj"
             }
           }
         }

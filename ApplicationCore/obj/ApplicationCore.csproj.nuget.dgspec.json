@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\glies\\source\\repos\\June\\MovieShop\\ApplicationCore\\ApplicationCore.csproj": {}
+    "C:\\Users\\glies\\source\\repos\\MovieShopMVC\\MovieShop\\ApplicationCore\\ApplicationCore.csproj": {}
   },
   "projects": {
-    "C:\\Users\\glies\\source\\repos\\June\\MovieShop\\ApplicationCore\\ApplicationCore.csproj": {
+    "C:\\Users\\glies\\source\\repos\\MovieShopMVC\\MovieShop\\ApplicationCore\\ApplicationCore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\glies\\source\\repos\\June\\MovieShop\\ApplicationCore\\ApplicationCore.csproj",
+        "projectUniqueName": "C:\\Users\\glies\\source\\repos\\MovieShopMVC\\MovieShop\\ApplicationCore\\ApplicationCore.csproj",
         "projectName": "ApplicationCore",
-        "projectPath": "C:\\Users\\glies\\source\\repos\\June\\MovieShop\\ApplicationCore\\ApplicationCore.csproj",
+        "projectPath": "C:\\Users\\glies\\source\\repos\\MovieShopMVC\\MovieShop\\ApplicationCore\\ApplicationCore.csproj",
         "packagesPath": "C:\\Users\\glies\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\glies\\source\\repos\\June\\MovieShop\\ApplicationCore\\obj\\",
+        "outputPath": "C:\\Users\\glies\\source\\repos\\MovieShopMVC\\MovieShop\\ApplicationCore\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\glies\\AppData\\Roaming\\NuGet\\NuGet.Config",

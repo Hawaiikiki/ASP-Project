@@ -1,0 +1,37 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.details{
+    margin-top:1em;
+}
+
+img{border:none; outline:none;margin:0;}
+
+.background {
+    color: white;
+    height: 30em;
+}
+
+.background img {
+    max-height: 30em;
+}
+
+.btn-light:hover {
+    background-color: #cfcbca;
+}

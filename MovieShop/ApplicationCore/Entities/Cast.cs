@@ -1,21 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ApplicationCore.Entities
 {
-    public class Genre
+    public class Cast
     {
         public int Id { get; set; }
-
-        [MaxLength(24)]
         public string Name { get; set; }
-
-
-        //public ICollection<Movie> Movies { get; set; }
-        public ICollection<MovieGenre> MoviesOfGenre { get; set; }
+        public string Gender { get; set; }
+        public string TmdbUrl { get; set; }
+        public string ProfilePath { get; set; }
+        public ICollection<MovieCast> MoviesOfCast { get; set; }
     }
 }

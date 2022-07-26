@@ -4,16 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ApplicationCore.Entities
+namespace ApplicationCore.Models
 {
-    public class Trailer
+    public class GenreModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string TrailerUrl { get; set; }
-        public int MovieId { get; set; }
 
-        // navigation property
-        public Movie Movie { get; set; }
     }
 }

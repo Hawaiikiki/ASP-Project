@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace ApplicationCore.Entities
 {
-    public class MovieGenre
+    public class MovieCast
     {
         public int MovieId { get; set; }
-        public int GenreId { get; set; }
-
-        // navigation
-        public Movie Movie { get; set; }    
-        public Genre Genre { get; set; }
+        public int CastId { get; set; }
+        public string Character { get; set; }
+        public Movie Movie { get; set; }
+        public Cast Cast { get; set; }
     }
 }

@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace ApplicationCore.ServiceContracts
 {
-    public interface IMovieService
+    public interface IGenreService
     {
-
-        // Controllers call Services
-
-        Task<List<MovieCardModel>> GetTopRevenueMovies();
-        Task<MovieDetailsModel> GetMovieDetails(int movieId);
+        Task<List<GenreModel>> GetAllGenres();
     }
 }

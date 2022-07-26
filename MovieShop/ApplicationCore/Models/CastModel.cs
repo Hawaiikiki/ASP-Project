@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace ApplicationCore.Models
 {
-    public class MovieCardModel
+    public class CastModel
     {
         public int Id { get; set; }
-        public string Title { get; set; }
-        public string PosterUrl { get; set; }
-
+        public string Name { get; set; }
+        public string ProfilePath { get; set; }
+        public string Character { get; set; }
     }
 }

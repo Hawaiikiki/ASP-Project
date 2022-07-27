@@ -6,6 +6,7 @@ using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 //need to use namespace for cookie
 using Microsoft.AspNetCore.Authentication.Cookies;
+using MovieShopMVC.Infra;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,9 @@ builder.Services.AddScoped<ICastRepository, CastRepository>();
 builder.Services.AddScoped<ICastService, CastService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<ICurrentUser, CurrentUser>();
+
+builder.Services.AddHttpContextAccessor();
 
 // read the connection string from appsetting.json and inject connection string into DbContext
 builder.Services.AddDbContext<MovieShopDbContext>(options =>

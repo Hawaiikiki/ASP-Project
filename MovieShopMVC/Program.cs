@@ -4,6 +4,8 @@ using Infrastructure.Data;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
+//need to use namespace for cookie
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +29,13 @@ builder.Services.AddDbContext<MovieShopDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MovieShopDbConnection"));
 });
 
+// injecting authentication seeting
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+{
+    options.Cookie.Name = "MovieShopAuthCookie";
+    options.ExpireTimeSpan = TimeSpan.FromHours(2); // we can also set sliding expiration
+    options.LoginPath = "/account/login";
+});
 
 var app = builder.Build();
 
@@ -43,6 +52,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// Middlewares, add authentication
+app.UseAuthentication(); // do not forget this step, and it should be before authentication
 app.UseAuthorization();
 
 app.MapControllerRoute(

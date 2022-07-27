@@ -74,7 +74,7 @@ namespace Infrastructure.Services
             return hashed;
         }
 
-        public async Task<bool> ValidateUser(UserLoginModel model)
+        public async Task<UserInfoResponseModel> ValidateUser(UserLoginModel model)
         {
             var dbUser = await _userRepository.GetUserByEmail(model.Email);
             if (dbUser == null)
@@ -85,9 +85,9 @@ namespace Infrastructure.Services
             var hashedPassword = GetHashedPasswordWithSalt(model.Password, dbUser.Salt);
             if (hashedPassword == dbUser.HashedPassword)
             {
-                return true;
+                return new UserInfoResponseModel { Id = dbUser.Id, Email = dbUser.Email, FirstName = dbUser.FirstName, LastName = dbUser.LastName};
             }
-            return false;
+            return null;
         }
     }
 }

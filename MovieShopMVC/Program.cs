@@ -47,12 +47,15 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+// all these are also middlewares, HTTP Request goes through all these middlewares
+// order of middleware is very important
+// we can use any built-in middlewares, create our own custom middleware
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 
-// Middlewares, add authentication
+// Middlewares, add authentication middleware (checks cookie)
 app.UseAuthentication(); // do not forget this step, and it should be before authentication
 app.UseAuthorization();
 

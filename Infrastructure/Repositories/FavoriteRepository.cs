@@ -10,39 +10,39 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories
 {
-    public class PurchaseRepository: IPurchaseRepository
+    public class FavoriteRepository: IFavoriteRepository
     {
         private readonly MovieShopDbContext _movieShopDbContext;
-        public PurchaseRepository(MovieShopDbContext movieShopDbContext)
+        public FavoriteRepository(MovieShopDbContext movieShopDbContext)
         {
             _movieShopDbContext = movieShopDbContext;
         }
 
-        public async Task<Purchase> Add(Purchase purchase)
+        public async Task<Favorite> Add(Favorite favorite)
         {
-            _movieShopDbContext.Purchases.Add(purchase);
+            _movieShopDbContext.Favorites.Add(favorite);
             await _movieShopDbContext.SaveChangesAsync();
-            return purchase;
+            return favorite;
         }
 
-        public async Task<Purchase> Delete(Purchase purchase)
+        public async Task<Favorite> Delete(Favorite favorite)
         {
-            _movieShopDbContext.Purchases.Remove(purchase);
+            _movieShopDbContext.Favorites.Remove(favorite);
             await _movieShopDbContext.SaveChangesAsync();
-            return purchase;
+            return favorite;
         }
 
-        public async Task<List<Purchase>> GetAll()
+        public async Task<List<Favorite>> GetAll()
         {
-            return await _movieShopDbContext.Purchases.ToListAsync();
+            return await _movieShopDbContext.Favorites.ToListAsync();
         }
 
-        public Task<Purchase> GetById(int id)
+        public Task<Favorite> GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Purchase> Update(Purchase purchase)
+        public Task<Favorite> Update(Favorite favorite)
         {
             throw new NotImplementedException();
         }

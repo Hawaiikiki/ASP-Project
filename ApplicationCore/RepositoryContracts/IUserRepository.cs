@@ -11,5 +11,6 @@ namespace ApplicationCore.RepositoryContracts
     {
         Task<User> GetUserByEmail(string email);
         Task<User> AddUser(User user);
+        Task<User> GetById(int id);
     }
 }

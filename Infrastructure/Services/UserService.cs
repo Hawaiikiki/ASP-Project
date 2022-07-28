@@ -1,5 +1,6 @@
 ﻿using ApplicationCore.Entities;
 using ApplicationCore.Models;
+using ApplicationCore.RepositoryContracts;
 using ApplicationCore.ServiceContracts;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace Infrastructure.Services
 {
     public class UserService : IUserService
     {
+        private readonly IUserRepository _userRepository;
         public Task<bool> AddFavorite(FavoriteRequestModel favoriteRequest)
         {
             throw new NotImplementedException();
@@ -31,19 +33,44 @@ namespace Infrastructure.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<MovieCardModel>> GetAllFavoritesForUser(int id)
+        public async Task<List<MovieCardModel>> GetAllFavoritesForUser(int id)
         {
-            throw new NotImplementedException();
+            var user = await _userRepository.GetById(id);
+            var favorites = user.Favorites;
+            var movieCards = new List<MovieCardModel>();
+            foreach(var favorite in favorites)
+            {
+                movieCards.Add(new MovieCardModel
+                {
+                    Id = favorite.MovieId,
+                    PosterUrl = favorite.Movie.PosterUrl,
+                    Title = favorite.Movie.Title
+                });
+            }
+            return movieCards;
         }
 
-        public Task<List<MovieCardModel>> GetAllPurchasesForUser(int id)
+        public async Task<List<MovieCardModel>> GetAllPurchasesForUser(int id)
         {
-            throw new NotImplementedException();
+            var user = await _userRepository.GetById(id);
+            var purchases = user.Purchases;
+            var movieCards = new List<MovieCardModel>();
+            foreach (var purchase in purchases)
+            {
+                movieCards.Add(new MovieCardModel
+                {
+                    Id = purchase.MovieId,
+                    PosterUrl = purchase.Movie.PosterUrl,
+                    Title = purchase.Movie.Title
+                });
+            }
+            return movieCards;
         }
 
-        public Task<List<Review>> GetAllReviewsByUser(int id)
+        public async Task<ICollection<Review>> GetAllReviewsByUser(int id)
         {
-            throw new NotImplementedException();
+            var user = await _userRepository.GetById(id);
+            return user.Reviews;
         }
 
         public Task<Purchase> GetPurchasesDetails(int userId, int movieId)

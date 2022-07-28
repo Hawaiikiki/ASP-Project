@@ -26,6 +26,12 @@ namespace Infrastructure.Repositories
             return user;
         }
 
+        public async Task<User> GetById(int id)
+        {
+            var user = await _movieShopDbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
+            return user;
+        }
+
         public async Task<User> GetUserByEmail(string email)
         {
             // this method will be used in accountService to check if there's matching user

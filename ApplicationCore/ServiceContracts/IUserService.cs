@@ -19,7 +19,7 @@ namespace ApplicationCore.ServiceContracts
         Task<bool> FavoriteExists(int id, int movieId);
         Task<List<MovieCardModel>> GetAllFavoritesForUser(int id);
         Task AddMovieReview(ReviewRequestModel reviewRequest);
-        Task<bool> UpdateMovieReview(ReviewRequestModel reviewRequest);
+        Task UpdateMovieReview(ReviewRequestModel reviewRequest);
         Task<bool> DeleteMovieReview(int userId, int movieId);
         Task<ICollection<Review>> GetAllReviewsByUser(int id);
     }

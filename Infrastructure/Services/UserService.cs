@@ -118,24 +118,55 @@ namespace Infrastructure.Services
             return purchaseDetails;
         }
 
-        public Task<bool> IsMoviePurchased(PurchaseRequestModel purchaseRequest, int userId)
+        public async Task<bool> IsMoviePurchased(PurchaseRequestModel purchaseRequest, int userId)
         {
-            throw new NotImplementedException();
+            var purchases = await GetAllPurchasesForUser(userId);
+            foreach (var purchase in purchases)
+            {
+                if (purchase.Id == purchaseRequest.MovieId)
+                {
+                    return true;
+                }
+            }
+            return false;
+
         }
 
-        public Task<bool> PurchaseMovie(PurchaseRequestModel purchaseRequest, int userId)
+        public async Task<bool> PurchaseMovie(PurchaseRequestModel purchaseRequest, int userId)
         {
-            throw new NotImplementedException();
+            if (await IsMoviePurchased(purchaseRequest, userId) == false)
+            {
+                var purchase = new Purchase
+                {
+                    MovieId = purchaseRequest.MovieId,
+                    UserId = userId,
+                    PurchaseNumber = purchaseRequest.PurchaseNumber,
+                    TotalPrice = purchaseRequest.TotalPrice,
+                    PurchaseDateTime = purchaseRequest.PurchaseDateTime
+                };
+                await _purchaseRepository.Add(purchase);
+                return true;
+            }
+            return false;
         }
 
-        public Task<bool> RemoveFavorite(FavoriteRequestModel favoriteRequest)
+        public async Task<bool> RemoveFavorite(FavoriteRequestModel favoriteRequest)
         {
-            throw new NotImplementedException();
+            var user = await _userRepository.GetById(favoriteRequest.UserId);
+            var favorites = user.Favorites;
+            var remove = favorites.FirstOrDefault(f => f.MovieId == favoriteRequest.MovieId);
+            if (remove != null)
+            {
+                await _favoriteRepository.Delete(remove);
+                return true;
+            }
+            return false;
         }
 
-        public Task<bool> UpdateMovieReview(ReviewRequestModel reviewRequest)
+        public async Task UpdateMovieReview(ReviewRequestModel reviewRequest)
         {
-            throw new NotImplementedException();
+            await DeleteMovieReview(reviewRequest.UserId, reviewRequest.MovieId);
+            await AddMovieReview(reviewRequest);
         }
     }
 }

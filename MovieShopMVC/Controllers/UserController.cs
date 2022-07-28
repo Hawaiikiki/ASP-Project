@@ -26,6 +26,8 @@ namespace MovieShopMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> Favorites()
         {
+            // get all the favorite movies
+            var userId = _currentUser.UserId;
             return View();
         }
         [HttpGet]
@@ -41,11 +43,21 @@ namespace MovieShopMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> BuyMovie()
         {
+            // when user click on Purchase, shows purchase confirmation pop up
+            var userId = _currentUser.UserId;
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> FavoriteMovie()
+        public async Task<IActionResult> FavoriteMovies()
         {
+            // give list of movies user purchased
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddReview()
+        {
+            // when user click on Revview, shows review confirmation pop up
+            var userId = _currentUser.UserId;
             return View();
         }
     }

@@ -13,6 +13,8 @@ namespace Infrastructure.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IReviewRepository _reviewRepository;
+        private readonly IPurchaseRepository _purchaseRepository;
         public Task<bool> AddFavorite(FavoriteRequestModel favoriteRequest)
         {
             throw new NotImplementedException();

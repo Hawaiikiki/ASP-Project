@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Models;
+using ApplicationCore.ServiceContracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieShopMVC.Infra;
@@ -10,9 +11,11 @@ namespace MovieShopMVC.Controllers
     public class UserController : Controller 
     {
         private readonly ICurrentUser _currentUser;
-        public UserController(ICurrentUser currentUser)
+        private readonly IUserService _userService;
+        public UserController(ICurrentUser currentUser, IUserService userService)
         {
             _currentUser = currentUser;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -21,14 +24,16 @@ namespace MovieShopMVC.Controllers
             // get all the movies purchased by user (userId)
             // httpcontext.user.claims -> then call the database -> then get the info to the view
             var userId = _currentUser.UserId;
-            return View();
+            var purchases = await _userService.GetAllPurchasesForUser(userId);
+            return View(purchases);
         }
         [HttpGet]
         public async Task<IActionResult> Favorites()
         {
             // get all the favorite movies
             var userId = _currentUser.UserId;
-            return View();
+            var favorites = await _userService.GetAllFavoritesForUser(userId);
+            return View(favorites);
         }
         [HttpGet]
         public async Task<IActionResult> EditProfile()
@@ -41,23 +46,24 @@ namespace MovieShopMVC.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> BuyMovie()
+        public async Task<IActionResult> BuyMovie(PurchaseRequestModel model)
         {
             // when user click on Purchase, shows purchase confirmation pop up
             var userId = _currentUser.UserId;
+            await _userService.PurchaseMovie(model, userId);
             return View();
         }
         [HttpPost]
         public async Task<IActionResult> FavoriteMovies()
         {
-            // give list of movies user purchased
             return View();
         }
+
         [HttpPost]
-        public async Task<IActionResult> AddReview()
+        public async Task<IActionResult> AddReview(ReviewRequestModel model)
         {
             // when user click on Revview, shows review confirmation pop up
-            var userId = _currentUser.UserId;
+            await _userService.AddMovieReview(model);
             return View();
         }
     }

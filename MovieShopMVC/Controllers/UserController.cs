@@ -62,7 +62,7 @@ namespace MovieShopMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> AddReview(ReviewRequestModel model)
         {
-            // when user click on Revview, shows review confirmation pop up
+            // when user click on Review, shows review confirmation pop up
             await _userService.AddMovieReview(model);
             return View();
         }

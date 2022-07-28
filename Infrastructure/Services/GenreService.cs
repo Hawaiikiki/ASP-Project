@@ -23,7 +23,6 @@ namespace Infrastructure.Services
             var genres = await _genreRepository.GetAllGenres();
             var genresModels = genres.Select(g => new GenreModel { Id = g.Id, Name = g.Name }).ToList();
             return genresModels;
-
         }
     }
 }

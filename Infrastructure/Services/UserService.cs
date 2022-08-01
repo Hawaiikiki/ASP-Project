@@ -16,7 +16,15 @@ namespace Infrastructure.Services
         private readonly IReviewRepository _reviewRepository;
         private readonly IPurchaseRepository _purchaseRepository;
         private readonly IFavoriteRepository _favoriteRepository;
-        public async Task<bool> AddFavorite(FavoriteRequestModel favoriteRequest)
+		public UserService(IUserRepository userRepository, IReviewRepository reviewRepository, IPurchaseRepository purchaseRepository, IFavoriteRepository favoriteRepository)
+		{
+			_userRepository = userRepository;
+			_reviewRepository = reviewRepository;
+			_purchaseRepository = purchaseRepository;
+			_favoriteRepository = favoriteRepository;
+		}
+
+		public async Task<bool> AddFavorite(FavoriteRequestModel favoriteRequest)
         {
             if (await FavoriteExists(favoriteRequest.UserId, favoriteRequest.MovieId) == false)
             {
@@ -34,6 +42,11 @@ namespace Infrastructure.Services
 
         public async Task AddMovieReview(ReviewRequestModel reviewRequest)
         {
+            var reviewCheck = await _reviewRepository.GetById(reviewRequest.UserId, reviewRequest.MovieId);
+            if (reviewCheck != null)
+			{
+                throw new Exception("Review already exists.");
+			}
             var review = new Review
             {
                 MovieId = reviewRequest.MovieId,
@@ -46,11 +59,10 @@ namespace Infrastructure.Services
 
         public async Task<bool> DeleteMovieReview(int userId, int movieId)
         {
-            var reviews = await GetAllReviewsByUser(userId);
-            var deleteReview = reviews.FirstOrDefault(r => r.MovieId == movieId);
-            if (deleteReview != null)
+            var review = await _reviewRepository.GetById(userId, movieId);
+            if (review != null)
             {
-                await _reviewRepository.Delete(deleteReview);
+                await _reviewRepository.Delete(userId, movieId);
                 return true;
             }
             return false;
@@ -87,10 +99,9 @@ namespace Infrastructure.Services
             return movieCards;
         }
 
-        public async Task<List<MovieCardModel>> GetAllPurchasesForUser(int id)
+        public async Task<List<MovieCardModel>> GetAllPurchasesForUser(int userId)
         {
-            var user = await _userRepository.GetById(id);
-            var purchases = user.Purchases;
+            var purchases = await _purchaseRepository.GetAll(userId);//2
             var movieCards = new List<MovieCardModel>();
             foreach (var purchase in purchases)
             {
@@ -115,21 +126,28 @@ namespace Infrastructure.Services
             var user = await _userRepository.GetById(userId);
             var purchases = user.Purchases;
             var purchaseDetails = purchases.FirstOrDefault(p => p.MovieId == movieId);
-            return purchaseDetails;
+            if (purchaseDetails == null)
+			{
+                throw new NullReferenceException("There is no available purchase detail.");
+			}
+            Purchase pur = new()
+			{
+                PurchaseNumber = purchaseDetails.PurchaseNumber,
+                MovieId = movieId,
+                PurchaseDateTime = purchaseDetails.PurchaseDateTime,
+                TotalPrice = purchaseDetails.TotalPrice
+                };
+            return pur;
         }
 
         public async Task<bool> IsMoviePurchased(PurchaseRequestModel purchaseRequest, int userId)
         {
-            var purchases = await GetAllPurchasesForUser(userId);
-            foreach (var purchase in purchases)
+            var purchases = await _purchaseRepository.GetUserMovie(userId, purchaseRequest.MovieId);
+            if (purchases == null)
             {
-                if (purchase.Id == purchaseRequest.MovieId)
-                {
-                    return true;
-                }
+                return false;
             }
-            return false;
-
+            return true;
         }
 
         public async Task<bool> PurchaseMovie(PurchaseRequestModel purchaseRequest, int userId)
@@ -140,11 +158,11 @@ namespace Infrastructure.Services
                 {
                     MovieId = purchaseRequest.MovieId,
                     UserId = userId,
-                    PurchaseNumber = purchaseRequest.PurchaseNumber,
+                    PurchaseNumber = Guid.NewGuid(),
                     TotalPrice = purchaseRequest.TotalPrice,
                     PurchaseDateTime = purchaseRequest.PurchaseDateTime
                 };
-                await _purchaseRepository.Add(purchase);
+                var purchased = await _purchaseRepository.Add(purchase);
                 return true;
             }
             return false;

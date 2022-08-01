@@ -25,21 +25,22 @@ namespace Infrastructure.Repositories
             return review;
         }
 
-        public async Task<Review> Delete(Review review)
+        public async Task<Review> Delete(int userId, int movieId)
         {
+            var review = await GetById(userId, movieId);
             _movieShopDbContext.Reviews.Remove(review);
             await _movieShopDbContext.SaveChangesAsync();
             return review;
         }
 
-        public async Task<List<Review>> GetAll()
+        public async Task<List<Review>> GetAll(int userId)
         {
-            return await _movieShopDbContext.Reviews.ToListAsync();
+            return await _movieShopDbContext.Reviews.Where(r=>r.UserId==userId).ToListAsync();
         }
 
-        public Task<Review> GetById(int id)
+        public async Task<Review> GetById(int userId, int movieId)
         {
-            throw new NotImplementedException();
+            return await _movieShopDbContext.Reviews.FirstOrDefaultAsync(r => r.UserId == userId && r.MovieId == movieId);
         }
 
         public Task<Review> Update(Review review)

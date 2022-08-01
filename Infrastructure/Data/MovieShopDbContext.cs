@@ -45,7 +45,7 @@ namespace Infrastructure.Data
         }
         private void ConfigurePurchase(EntityTypeBuilder<Purchase> builder)
         {
-            builder.ToTable("Purchase");
+            builder.ToTable("Purchases");
             builder.HasKey(p => new {p.UserId,p.MovieId});
             builder.Property(p => p.PurchaseNumber).ValueGeneratedOnAdd();
             builder.Property(p => p.TotalPrice).HasColumnType("decimal(5, 2)");

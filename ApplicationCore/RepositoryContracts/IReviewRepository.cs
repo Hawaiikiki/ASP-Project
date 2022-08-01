@@ -9,10 +9,10 @@ namespace ApplicationCore.RepositoryContracts
 {
     public interface IReviewRepository
     {
-        Task<Review> GetById(int id);
-        Task<List<Review>> GetAll();
+        Task<Review> GetById(int userId, int movieId);
+        Task<List<Review>> GetAll(int userId);
         Task<Review> Add(Review review);
         Task<Review> Update(Review review);
-        Task<Review> Delete(Review review);
+        Task<Review> Delete(int userId, int movieId);
     }
 }

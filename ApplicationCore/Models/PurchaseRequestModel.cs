@@ -11,7 +11,7 @@ namespace ApplicationCore.Models
         public int MovieId { get; set; }
         public int UserId { get; set; }
         public Guid PurchaseNumber { get; set; }
-        public decimal TotalPrice { get; set; }
+        public decimal? TotalPrice { get; set; }
         public DateTime PurchaseDateTime { get; set; }
     }
 }

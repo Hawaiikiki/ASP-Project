@@ -12,10 +12,12 @@ namespace MovieShopMVC.Controllers
     {
         private readonly ICurrentUser _currentUser;
         private readonly IUserService _userService;
-        public UserController(ICurrentUser currentUser, IUserService userService)
+        private readonly IMovieService _movieService;
+        public UserController(ICurrentUser currentUser, IUserService userService, IMovieService movieService)
         {
             _currentUser = currentUser;
             _userService = userService;
+            _movieService = movieService;
         }
 
         [HttpGet]
@@ -51,7 +53,7 @@ namespace MovieShopMVC.Controllers
             // when user click on Purchase, shows purchase confirmation pop up
             var userId = _currentUser.UserId;
             await _userService.PurchaseMovie(model, userId);
-            return View();
+            return LocalRedirect("~/Movies/Details/"+model.MovieId);
         }
         [HttpPost]
         public async Task<IActionResult> FavoriteMovies()
@@ -64,7 +66,7 @@ namespace MovieShopMVC.Controllers
         {
             // when user click on Review, shows review confirmation pop up
             await _userService.AddMovieReview(model);
-            return View();
+            return LocalRedirect("~/Movies/Details/"+model.MovieId);
         }
     }
 }

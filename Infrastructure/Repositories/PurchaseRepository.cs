@@ -32,19 +32,20 @@ namespace Infrastructure.Repositories
             return purchase;
         }
 
-        public async Task<List<Purchase>> GetAll()
+        public async Task<List<Purchase>> GetAll(int userId)
         {
-            return await _movieShopDbContext.Purchases.ToListAsync();
+            var purchases = await _movieShopDbContext.Purchases
+                .Where(p => p.UserId == userId)
+                .Include(p => p.Movie).ToListAsync();
+            return purchases;
         }
 
-        public Task<Purchase> GetById(int id)
+        public async Task<Purchase> GetUserMovie(int userId, int movieId)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<Purchase> Update(Purchase purchase)
-        {
-            throw new NotImplementedException();
+            var purchase = await _movieShopDbContext.Purchases
+            .Include(p => p.Movie)
+            .FirstOrDefaultAsync(p => p.UserId == userId && p.MovieId == movieId);
+            return purchase;
         }
     }
 }

@@ -32,19 +32,16 @@ namespace Infrastructure.Repositories
             return favorite;
         }
 
-        public async Task<List<Favorite>> GetAll()
+        public async Task<List<Favorite>> GetAll(int userId)
         {
-            return await _movieShopDbContext.Favorites.ToListAsync();
+            return await _movieShopDbContext.Favorites.
+                Where(f=>f.UserId==userId).Include(p=>p.Movie).ToListAsync();
         }
 
-        public Task<Favorite> GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Favorite> Update(Favorite favorite)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<Favorite> GetFavoriteById(int userId, int movieId)
+		{
+            var fav = await _movieShopDbContext.Favorites.FirstOrDefaultAsync(f=>f.UserId == userId && f.MovieId==movieId);
+            return fav;
+		}
     }
 }

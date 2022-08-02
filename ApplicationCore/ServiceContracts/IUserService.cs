@@ -13,7 +13,7 @@ namespace ApplicationCore.ServiceContracts
         Task<bool> PurchaseMovie(PurchaseRequestModel purchaseRequest, int userId);
         Task<bool> IsMoviePurchased(PurchaseRequestModel purchaseRequest, int userId);
         Task<List<MovieCardModel>> GetAllPurchasesForUser(int id);
-        Task<Purchase> GetPurchasesDetails(int userId, int movieId);
+        Task<PurchaseDetailsModel> GetPurchasesDetails(int userId, int movieId);
         Task<bool> AddFavorite(FavoriteRequestModel favoriteRequest);
         Task<bool> RemoveFavorite(FavoriteRequestModel favoriteRequest);
         Task<bool> FavoriteExists(int id, int movieId);
@@ -22,5 +22,6 @@ namespace ApplicationCore.ServiceContracts
         Task UpdateMovieReview(ReviewRequestModel reviewRequest);
         Task<bool> DeleteMovieReview(int userId, int movieId);
         Task<ICollection<Review>> GetAllReviewsByUser(int id);
+        Task<Review> GetReviewDetails(int userId, int movieId);
     }
 }

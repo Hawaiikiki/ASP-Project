@@ -57,6 +57,7 @@ namespace Infrastructure.Services
             var savedReview = await _reviewRepository.Add(review);
         }
 
+
         public async Task<bool> DeleteMovieReview(int userId, int movieId)
         {
             var review = await _reviewRepository.GetById(userId, movieId);
@@ -82,10 +83,10 @@ namespace Infrastructure.Services
 
         }
 
-        public async Task<List<MovieCardModel>> GetAllFavoritesForUser(int id)
+        public async Task<List<MovieCardModel>> GetAllFavoritesForUser(int userId)
         {
-            var user = await _userRepository.GetById(id);
-            var favorites = user.Favorites;
+            var favorites = await _favoriteRepository.GetAll(userId);
+
             var movieCards = new List<MovieCardModel>();
             foreach(var favorite in favorites)
             {
@@ -121,7 +122,7 @@ namespace Infrastructure.Services
             return user.Reviews;
         }
 
-        public async Task<Purchase> GetPurchasesDetails(int userId, int movieId)
+        public async Task<PurchaseDetailsModel> GetPurchasesDetails(int userId, int movieId)
         {
             var user = await _userRepository.GetById(userId);
             var purchases = user.Purchases;
@@ -130,14 +131,25 @@ namespace Infrastructure.Services
 			{
                 throw new NullReferenceException("There is no available purchase detail.");
 			}
-            Purchase pur = new()
-			{
+            PurchaseDetailsModel purchase = new()
+            {
+                UserId = userId,
                 PurchaseNumber = purchaseDetails.PurchaseNumber,
                 MovieId = movieId,
                 PurchaseDateTime = purchaseDetails.PurchaseDateTime,
-                TotalPrice = purchaseDetails.TotalPrice
-                };
-            return pur;
+                TotalPrice = purchaseDetails.TotalPrice,
+                PosterUrl = purchaseDetails.Movie.PosterUrl
+             };
+            return purchase;
+        }
+        public async Task<Review> GetReviewDetails(int userId, int movieId)
+        {
+            var review = await _reviewRepository.GetById(userId,movieId);
+            if (review == null)
+            {
+                return null;
+            }
+            return review;
         }
 
         public async Task<bool> IsMoviePurchased(PurchaseRequestModel purchaseRequest, int userId)
@@ -170,9 +182,7 @@ namespace Infrastructure.Services
 
         public async Task<bool> RemoveFavorite(FavoriteRequestModel favoriteRequest)
         {
-            var user = await _userRepository.GetById(favoriteRequest.UserId);
-            var favorites = user.Favorites;
-            var remove = favorites.FirstOrDefault(f => f.MovieId == favoriteRequest.MovieId);
+            var remove = await _favoriteRepository.GetFavoriteById(favoriteRequest.UserId, favoriteRequest.MovieId);
             if (remove != null)
             {
                 await _favoriteRepository.Delete(remove);

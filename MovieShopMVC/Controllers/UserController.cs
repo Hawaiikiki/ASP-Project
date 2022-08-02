@@ -68,5 +68,29 @@ namespace MovieShopMVC.Controllers
             await _userService.AddMovieReview(model);
             return LocalRedirect("~/Movies/Details/"+model.MovieId);
         }
+		[HttpPost]
+        public async Task<IActionResult> AddFavorite(FavoriteRequestModel model)
+		{
+            await _userService.AddFavorite(model);
+            return LocalRedirect("~/Movies/Details/" + model.MovieId);
+		}
+		[HttpPost]
+        public async Task<IActionResult> RemoveFavorite(FavoriteRequestModel model)
+		{
+            await _userService.RemoveFavorite(model);
+            return LocalRedirect("~/Movies/Details/" + model.MovieId);
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteReview(ReviewRequestModel model)
+        {
+            await _userService.DeleteMovieReview(model.UserId, model.MovieId);
+            return LocalRedirect("~/Movies/Details/" + model.MovieId);
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateReview(ReviewRequestModel model)
+        {
+            await _userService.UpdateMovieReview(model);
+            return LocalRedirect("~/Movies/Details/"+model.MovieId);
+        }
     }
 }

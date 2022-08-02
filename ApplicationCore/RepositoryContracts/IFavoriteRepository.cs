@@ -9,10 +9,9 @@ namespace ApplicationCore.RepositoryContracts
 {
     public interface IFavoriteRepository
     {
-        Task<Favorite> GetById(int id);
-        Task<List<Favorite>> GetAll();
+        Task<List<Favorite>> GetAll(int userId);
         Task<Favorite> Add(Favorite favorite);
-        Task<Favorite> Update(Favorite favorite);
         Task<Favorite> Delete(Favorite favorite);
+        Task<Favorite> GetFavoriteById(int UserId, int MovieId);
     }
 }

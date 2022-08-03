@@ -59,7 +59,7 @@ if (!app.Environment.IsDevelopment())
 // order of middleware is very important
 // we can use any built-in middlewares, create our own custom middleware
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+app.UseStaticFiles(); 
 
 app.UseRouting();
 

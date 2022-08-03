@@ -6,6 +6,7 @@ using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using MovieShopAPI.Middlewares;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -54,18 +55,20 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-var app = builder.Build();
+var app = builder.Build(); // once the application is built
 
+// below are middlewares (each has next() method so order is important)
+// when we get a HTTP Request from client/browser
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseMovieShopExceptionMiddleware(); // custom middleware
 app.UseHttpsRedirection();
 
-// this will be used for authenticating
+// this middleware will be used for authenticating
 app.UseAuthentication();
 app.UseAuthorization();
 

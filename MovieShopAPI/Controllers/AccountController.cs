@@ -55,6 +55,7 @@ namespace MovieShopAPI.Controllers
             // if JWT is invalid or expired, then API will send 401 Unauthorized error
 
             // if null
+            throw new UnauthorizedAccessException("There is no matching Email/Password. Please check email and password again");
             return Unauthorized(new { errorMessage = "Please check email and password" });
 
         }

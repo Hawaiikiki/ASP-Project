@@ -89,5 +89,15 @@ namespace Infrastructure.Services
             }
             return null;
         }
+        public async Task<bool> EmailExists(string email)
+        {
+            var user = await _userRepository.GetUserByEmail(email);
+            if (user == null)
+            {
+                return false;
+            }
+            return true;
+
+        }
     }
 }

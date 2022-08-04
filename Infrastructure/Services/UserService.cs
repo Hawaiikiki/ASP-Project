@@ -23,7 +23,22 @@ namespace Infrastructure.Services
 			_purchaseRepository = purchaseRepository;
 			_favoriteRepository = favoriteRepository;
 		}
-
+        public async Task<UserInfoResponseModel> UserDetails(int userId)
+        {
+            var user = await _userRepository.GetById(userId);
+            if (user == null)
+            {
+                throw new NullReferenceException("Cannot find the user");
+            }
+            var userDetails = new UserInfoResponseModel
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email
+            };
+            return userDetails;
+        }
 		public async Task<bool> AddFavorite(FavoriteRequestModel favoriteRequest)
         {
             if (await FavoriteExists(favoriteRequest.UserId, favoriteRequest.MovieId) == false)
@@ -40,12 +55,13 @@ namespace Infrastructure.Services
             
         }
 
-        public async Task AddMovieReview(ReviewRequestModel reviewRequest)
+        public async Task<bool> AddMovieReview(ReviewRequestModel reviewRequest)
         {
             var reviewCheck = await _reviewRepository.GetById(reviewRequest.UserId, reviewRequest.MovieId);
             if (reviewCheck != null)
 			{
                 throw new Exception("Review already exists.");
+                return false;
 			}
             var review = new Review
             {
@@ -55,6 +71,7 @@ namespace Infrastructure.Services
                 ReviewText = reviewRequest.ReviewText
             };
             var savedReview = await _reviewRepository.Add(review);
+            return true;
         }
 
 

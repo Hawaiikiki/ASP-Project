@@ -6,6 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Text;
+using ApplicationCore.RepositoryContracts;
 
 namespace MovieShopAPI.Controllers
 {
@@ -16,10 +17,12 @@ namespace MovieShopAPI.Controllers
         private readonly IAccountService _accountService;
         // injecting for secretKey
         private readonly IConfiguration _configuration;
-        public AccountController(IAccountService accountService, IConfiguration configuration)
+        private readonly IUserRepository _userRepository;
+        public AccountController(IAccountService accountService, IConfiguration configuration,IUserRepository userRepository)
         {
             _accountService = accountService;
             _configuration = configuration;
+            _userRepository = userRepository;
         }
         [HttpPost]
         [Route("register")]
@@ -56,8 +59,18 @@ namespace MovieShopAPI.Controllers
 
             // if null
             throw new UnauthorizedAccessException("There is no matching Email/Password. Please check email and password again");
-            return Unauthorized(new { errorMessage = "Please check email and password" });
 
+        }
+        [HttpGet]
+        [Route("CheckEmail/{email}")]
+        public async Task<IActionResult> CheckEmail(string email)
+        {
+            if(await _accountService.EmailExists(email))
+            {
+                return BadRequest(new {errorMessage="Email already exists"});
+            }
+            return Ok(email);
+            
         }
 
         private string CreateJwt(UserInfoResponseModel user)

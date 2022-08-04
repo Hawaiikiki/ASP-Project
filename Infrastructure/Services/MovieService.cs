@@ -1,3 +1,4 @@
+using ApplicationCore.Entities;
 using ApplicationCore.Models;
 using ApplicationCore.RepositoryContracts;
 using ApplicationCore.ServiceContracts;
@@ -91,6 +92,31 @@ namespace Infrastructure.Services
                 movieCards.Add(new MovieCardModel { Id = movie.Id, Title = movie.Title, PosterUrl = movie.PosterUrl });
             }
             return movieCards;
+        }
+        public async Task<List<MovieCardModel>> GetTopRatedmovies()
+        {
+            var movies = await _movieRepository.GetTop30RatedMovies();
+            var movieCards = new List<MovieCardModel>();
+            foreach(var movie in movies)
+            {
+                movieCards.Add(new MovieCardModel { Id=movie.Id, Title = movie.Title, PosterUrl = movie.PosterUrl });
+            }
+            return movieCards;
+        }
+        public async Task<PagedResultSet<MovieCardModel>> GetMoviesByGenre(int genreId, int pageSize=30, int pageNum = 1)
+        {
+            var movies = await _movieRepository.GetMoviesByGenrePagination(genreId, pageSize, pageNum);
+            var movieCards = new List<MovieCardModel>();
+            foreach (var movie in movies.Data)
+            {
+                movieCards.Add(new MovieCardModel { Id = movie.Id, PosterUrl = movie.PosterUrl, Title = movie.Title });
+            }
+            return new PagedResultSet<MovieCardModel>(movieCards,movies.PageIndex,movies.PageSize,movies.TotalRowCount);
+        }
+        public async Task<IEnumerable<Review>> GetMovieReviews(int movieId)
+        {
+            var movie = await _movieRepository.GetById(movieId);
+            return movie.ReviewsOfMovie;
         }
     }
 }

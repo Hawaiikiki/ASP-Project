@@ -1,4 +1,5 @@
-﻿using ApplicationCore.Models;
+﻿using ApplicationCore.Entities;
+using ApplicationCore.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,8 @@ namespace ApplicationCore.ServiceContracts
         Task<List<MovieCardModel>> GetTopRevenueMovies();
         Task<MovieDetailsModel> GetMovieDetails(int movieId);
         Task<PagedResultSet<MovieCardModel>> GetMoviesByPagination(int genreId, int pageSize=30, int page=1);
+        Task<List<MovieCardModel>> GetTopRatedmovies();
+        Task<PagedResultSet<MovieCardModel>> GetMoviesByGenre(int genreId, int pageSize = 30, int pageNum = 1);
+        Task<IEnumerable<Review>> GetMovieReviews(int movieId);
     }
 }

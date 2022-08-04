@@ -25,6 +25,7 @@ namespace Infrastructure.Repositories
                 .Include(m => m.GenresOfMovie).ThenInclude(m => m.Genre)
                 .Include(m => m.CastsOfMovie).ThenInclude(m => m.Cast)
                 .Include(m => m.Trailers)
+                .Include(m=>m.ReviewsOfMovie)
                 .FirstOrDefaultAsync(m => m.Id == id);
             return movieDetails;
         }
@@ -64,9 +65,10 @@ namespace Infrastructure.Repositories
             return movies;
         }
 
-        public Task<List<Movie>> GetTop30RatedMovies()
+        public async Task<List<Movie>> GetTop30RatedMovies()
         {
-            throw new NotImplementedException();
+            var movies = await _movieShopDbContext.Movies.OrderByDescending(m => m.Rating).Take(30).ToListAsync();
+            return movies;
         }
     }
 }

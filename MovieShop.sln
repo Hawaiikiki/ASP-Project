@@ -9,7 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplicationCore", "Applicat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{13C350AE-EC29-4273-8342-9F2126CC8C50}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieShopAPI", "MovieShopAPI\MovieShopAPI.csproj", "{CFD7D568-E0E9-40D2-B1AF-1EF8422907AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieShopAPI", "MovieShopAPI\MovieShopAPI.csproj", "{CFD7D568-E0E9-40D2-B1AF-1EF8422907AC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{67595CD3-5F39-455F-B0D8-93CD10155EBC} = {67595CD3-5F39-455F-B0D8-93CD10155EBC}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

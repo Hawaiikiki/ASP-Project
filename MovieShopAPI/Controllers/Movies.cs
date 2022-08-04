@@ -43,12 +43,66 @@ namespace MovieShopAPI.Controllers
         [Route("{movieId:int}")]//place holder
         public async Task<IActionResult> GetMovie(int movieId) // matching the parameter name
         {
-            var movie = await  _movieService.GetMovieDetails(movieId);
+            var movie = await _movieService.GetMovieDetails(movieId);
             if(movie== null)
             {
                 return NotFound(new { errorMessage = $"No Movie Found for {movieId}"});
             }
             return Ok(movie);
+        }
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            var movies = await _movieService.GetTopRevenueMovies();
+
+            if (movies == null || !movies.Any())
+            {
+                // 404
+                return NotFound(new { errorMessage = "No Movies Found" });
+            }
+
+            return Ok(movies);
+        }
+        [HttpGet]
+        [Route("top-rated")]
+        public async Task<IActionResult> GetTopRatedMovies()
+        {
+            var movies = await _movieService.GetTopRatedmovies();
+
+            if (movies == null || !movies.Any())
+            {
+                return NotFound(new { errorMessage = "No Movies Found" });
+            }
+
+            return Ok(movies);
+        }
+        [HttpGet]
+        [Route("genre/{genreId:int}")]
+        public async Task<IActionResult> GetMoviesByGenre(int genreId)
+        {
+            var movies = await _movieService.GetMoviesByGenre(genreId);
+
+            if (movies == null)
+            {
+                return NotFound(new { errorMessage = "No Movies Found for this genre" });
+            }
+
+            return Ok(movies);
+        }
+        [HttpGet]
+        [Route("{movieId:int}/reviews")]
+        public async Task<IActionResult> GetMovieReviews(int movieId)
+        {
+            var reviews = await _movieService.GetMovieReviews(movieId);
+
+            if (reviews == null || !reviews.Any())
+            {
+                // 404
+                return NotFound(new { errorMessage = "No Reviews Found For This Movie" });
+            }
+
+            return Ok(reviews);
+
         }
     }
 }
